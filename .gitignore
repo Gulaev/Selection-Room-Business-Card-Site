@@ -1,7 +1,13 @@
-HELP.md
-/src/main/resources/application.properties
+# Ignore target directory
 target/
+
+# Ignore application.properties file
+/src/main/resources/application.properties
+
+# Maven wrapper
 !.mvn/wrapper/maven-wrapper.jar
+
+# Include source files
 !**/src/main/**
 !**/src/test/**
 
@@ -31,4 +37,4 @@ build/
 ### VS Code ###
 .vscode/
 
-
+HELP.md
