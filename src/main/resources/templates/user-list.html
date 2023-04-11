@@ -2,19 +2,23 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Users</title>
+    <title>Users1</title>
+    <!-- Add Bootstrap CSS link -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
 <body>
 <div th:switch="${users}">
     <h2 th:case="null">No users found!</h2>
     <div th:case="*">
         <h2>Users</h2>
-        <table>
+        <table class="table table-striped">
             <thead>
             <tr>
                 <th>Id</th>
                 <th>First name</th>
                 <th>Last name</th>
+                <th></th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -22,13 +26,15 @@
                 <td th:text="${user.id}"></td>
                 <td th:text="${user.firstName}"></td>
                 <td th:text="${user.lastName}"></td>
-                <td><a th:href="@{user-update/{id}(id=${user.id})}">Edit</a></td>
-                <td><a th:href="@{user-delete/{id}(id=${user.id})}">Delete</a></td>
+                <td><a class="btn btn-primary" th:href="@{user-update/{id}(id=${user.id})}">Edit</a></td>
+                <td><a class="btn btn-danger" th:href="@{user-delete/{id}(id=${user.id})}">Delete</a></td>
             </tr>
             </tbody>
         </table>
     </div>
-    <p><a href="/user-create">Create user</a></p>
+    <p><a class="btn btn-success" href="/user-create">Create user</a></p>
 </div>
+<!-- Add Bootstrap JS link -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
 </html>

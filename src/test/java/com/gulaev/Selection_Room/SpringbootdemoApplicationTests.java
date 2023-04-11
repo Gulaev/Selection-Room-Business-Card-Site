@@ -1,4 +1,4 @@
-package net.proselyte.springbootdemo;
+package com.gulaev.Selection_Room;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

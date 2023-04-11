@@ -1,7 +1,7 @@
-package net.proselyte.springbootdemo.controller;
+package com.gulaev.Selection_Room.controller;
 
-import net.proselyte.springbootdemo.model.User;
-import net.proselyte.springbootdemo.service.UserService;
+import com.gulaev.Selection_Room.model.User;
+import com.gulaev.Selection_Room.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
