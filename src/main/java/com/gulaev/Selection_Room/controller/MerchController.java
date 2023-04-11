@@ -11,5 +11,4 @@ public class MerchController {
   public String merch(Model model) {
     return "merch";
   }
-
 }

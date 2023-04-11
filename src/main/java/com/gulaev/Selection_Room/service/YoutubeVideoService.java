@@ -18,64 +18,32 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 @Service
+@PropertySource("classpath:application.properties")
 public class YoutubeVideoService {
 
   private YoutubeVideoRepository youtubeVideoRepository;
-  private final String channelId;
-  private final String apiKey;
+  @Value("${google.id}")
+  private  String channelId;
+  @Value("${google.key}")
+  private  String apiKey;
   private final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
   private final JsonFactory JSON_FACTORY = new JacksonFactory();
 
   @Autowired
   public YoutubeVideoService(YoutubeVideoRepository youtubeVideoRepository) {
     this.youtubeVideoRepository = youtubeVideoRepository;
-    this.channelId = "UCG-dmsed2RhkmCVdOC3mj-Q";
-    this.apiKey = "AIzaSyA4AcJwTFqawSBcwhjmC93CjNWKazE8Yp4";
   }
-
-  public List<String> getAllCurrentVideo() throws IOException {
-    YouTube youTube = new YouTube.Builder(HTTP_TRANSPORT, JSON_FACTORY,
-        new HttpRequestInitializer() {
-          @Override
-          public void initialize(HttpRequest httpRequest) throws IOException {
-
-          }
-        }).setApplicationName("SelectionRoom").setYouTubeRequestInitializer(
-        new YouTubeRequestInitializer("AIzaSyA4AcJwTFqawSBcwhjmC93CjNWKazE8Yp4")).build();
-
-    YouTube.Search.List search = youTube.search().list("id,snippet");
-
-    search.setKey(apiKey);
-    search.setChannelId("UCG-dmsed2RhkmCVdOC3mj-Q");
-    search.setType("video");
-    search.setOrder("date");
-    search.setMaxResults(50L);
-    SearchListResponse response = search.execute();
-    List<SearchResult> searchResults = response.getItems();
-    //searchResults.forEach(System.out::println);
-
-    List<String> videoUrls = new ArrayList<>();
-    for (SearchResult searchResult : searchResults) {
-      String videoId = searchResult.getId().getVideoId();
-      String videoUrl = "https://www.youtube.com/embed/" + videoId;
-      videoUrls.add(videoUrl);
-    }
-
-    videoUrls.stream().forEach(System.out::println);
-    return videoUrls;
-  }
-
 
   public List<YoutubeVideo> getAllVideo() throws IOException {
     YouTube youtube = new YouTube.Builder(HTTP_TRANSPORT, JSON_FACTORY,
         new HttpRequestInitializer() {
           @Override
-          public void initialize(HttpRequest httpRequest) throws IOException {
-
-          }
+          public void initialize(HttpRequest httpRequest) throws IOException {}
         }).setApplicationName("SelectionRoom").setYouTubeRequestInitializer(
         new YouTubeRequestInitializer(apiKey)).build();
 

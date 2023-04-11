@@ -7,13 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller()
 public class LiveController {
 
-
   @GetMapping("/live")
   public String livePage(Model model) {
     return "live";
   }
-
-
-
-
 }
