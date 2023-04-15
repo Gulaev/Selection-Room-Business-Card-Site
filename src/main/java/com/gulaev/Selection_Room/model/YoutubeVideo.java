@@ -21,9 +21,9 @@ public class YoutubeVideo {
   }
 
   @Id
-  @Column(name = "id", nullable = false)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE)
-  private String id;
+  @Column(name = "id")
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Integer id;
 
   @Column(name="video_url")
   private String videoUrl;

@@ -8,8 +8,6 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.YouTubeRequestInitializer;
-import com.google.api.services.youtube.model.PlaylistItem;
-import com.google.api.services.youtube.model.PlaylistItemListResponse;
 import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
 import com.gulaev.Selection_Room.model.YoutubeVideo;
@@ -39,7 +37,7 @@ public class YoutubeVideoService {
     this.youtubeVideoRepository = youtubeVideoRepository;
   }
 
-  public List<YoutubeVideo> getAllVideo() throws IOException {
+  public void getAllVideoAndSaveToDb() throws IOException {
     YouTube youtube = new YouTube.Builder(HTTP_TRANSPORT, JSON_FACTORY,
         new HttpRequestInitializer() {
           @Override
@@ -64,7 +62,16 @@ public class YoutubeVideoService {
       videoList.add(new YoutubeVideo(videoUrl, title, description));
     }
 
-    return videoList;
+    loadToDb(videoList);
+  }
+
+
+  private void loadToDb(List<YoutubeVideo> youtubeVideos) {
+    youtubeVideoRepository.saveAll(youtubeVideos);
+  }
+
+  public List<YoutubeVideo> getAllVideo() {
+    return youtubeVideoRepository.findAll();
   }
 }
 
