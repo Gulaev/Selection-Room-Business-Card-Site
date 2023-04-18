@@ -1,6 +1,15 @@
 version: '3'
 
 services:
+  demodb:
+    image: postgres
+    container_name: demodb
+    environment:
+      POSTGRES_DB: mydatabase
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+    volumes:
+      - ./init-scripts:/docker-entrypoint-initdb.d
   app:
     build: .
     depends_on:
@@ -11,13 +20,3 @@ services:
       SPRING_DATASOURCE_PASSWORD: mypassword
     ports:
       - "8080:8080"
-
-  demodb:
-    image: postgres
-    container_name: demodb
-    environment:
-      POSTGRES_DB: mydatabase
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypassword
-    volumes:
-       - ./init-scripts:/docker-entrypoint-initdb.d

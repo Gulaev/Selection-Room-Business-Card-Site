@@ -14,7 +14,9 @@ import com.gulaev.Selection_Room.model.YoutubeVideo;
 import com.gulaev.Selection_Room.repository.YoutubeVideoRepository;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -62,9 +64,8 @@ public class YoutubeVideoService {
       videoList.add(new YoutubeVideo(videoUrl, title, description));
     }
 
-    loadToDb(videoList);
+    loadToDb(checkDublicate(videoList));
   }
-
 
   private void loadToDb(List<YoutubeVideo> youtubeVideos) {
     youtubeVideoRepository.saveAll(youtubeVideos);
@@ -72,6 +73,22 @@ public class YoutubeVideoService {
 
   public List<YoutubeVideo> getAllVideo() {
     return youtubeVideoRepository.findAll();
+  }
+
+  private List<YoutubeVideo> checkDublicate(List<YoutubeVideo> youtubeVideos) {
+    List<YoutubeVideo> youtubeVideosFromDb = getAllVideo();
+    Set<String> seenUrls = new HashSet<>();
+    List<YoutubeVideo> videosWithoutDublicates = new ArrayList<>();
+
+    youtubeVideosFromDb.stream()
+        .map(YoutubeVideo::getVideoUrl)
+        .forEach(seenUrls::add);
+
+    youtubeVideos.stream()
+        .filter(video -> !seenUrls.contains(video.getVideoUrl()))
+        .forEach(video -> videosWithoutDublicates.add(video));
+
+    return videosWithoutDublicates;
   }
 }
 
