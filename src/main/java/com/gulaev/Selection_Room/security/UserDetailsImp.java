@@ -2,7 +2,9 @@ package com.gulaev.Selection_Room.security;
 
 import com.gulaev.Selection_Room.model.User;
 import java.util.Collection;
+import java.util.Collections;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class UserDetailsImp implements UserDetails {
@@ -15,7 +17,7 @@ public class UserDetailsImp implements UserDetails {
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return null;
+    return Collections.singletonList(new SimpleGrantedAuthority(user.getRole()));
   }
 
   @Override

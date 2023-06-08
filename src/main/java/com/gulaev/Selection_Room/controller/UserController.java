@@ -1,9 +1,9 @@
 package com.gulaev.Selection_Room.controller;
 
 import com.gulaev.Selection_Room.model.User;
+import com.gulaev.Selection_Room.service.RegistrationService;
 import com.gulaev.Selection_Room.service.UserService;
 import com.gulaev.Selection_Room.util.UserValidator;
-import java.nio.file.attribute.UserPrincipalNotFoundException;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,11 +20,14 @@ public class UserController {
 
     private final UserService userService;
     private final UserValidator userValidator;
+    private final RegistrationService registrationService;
 
     @Autowired
-    public UserController(UserService userService, UserValidator userValidator) {
+    public UserController(UserService userService, UserValidator userValidator,
+        RegistrationService registrationService) {
         this.userService = userService;
         this.userValidator = userValidator;
+        this.registrationService = registrationService;
     }
 
     @GetMapping("/users")
@@ -45,7 +48,7 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return "redirect:/user-create";
         } else {
-            userService.saveUser(user);
+            registrationService.register(user);
             return "redirect:/users";
         }
     }
@@ -65,7 +68,7 @@ public class UserController {
 
     @PostMapping("/user-update")
     public String updateUser(User user){
-        userService.saveUser(user);
+        registrationService.register(user);
         return "redirect:/users";
     }
 }
